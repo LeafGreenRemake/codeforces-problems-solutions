@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define all(x) x.begin(), x.end()
+#define fori(n, i) for (int i = 0; i < n; i++)
+typedef vector<int> vi;
+typedef pair<int, int> ii;
+const int oo = 1e9 + 7;
+ 
+void solve(int n, int k, int* answers, int m) { 
+	int* diff = new int[n];
+	int max, maxIndex, input, prev, sum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (i == 0)
+		{
+			cin >> prev;
+			diff[i] = 0;
+		}
+		else
+		{
+			cin >> input;
+			diff[i] = abs(input - prev);
+			prev = input;
+		}
+	}
+ 
+	for (int i = 0; i < k - 1; i++)
+	{
+		max = 0;
+		for (int j = 1; j < n; j++)
+		{
+			if (diff[j] > max)
+			{
+				max = diff[j];
+				maxIndex = j;
+			}
+		}
+		diff[maxIndex] = 0;
+	}
+ 
+	for (int i = 0; i < n; i++)
+	{
+		sum += diff[i];
+	}
+	answers[m] = sum;
+    delete[] diff;
+ }
+ 
+signed main() {
+    int t, n, k;
+    cin >> t;
+    
+    int* answers = new int[t];
+ 
+    for (int m = 0; m < t; m++)
+    {
+        cin >> n >> k;
+        solve(n, k, answers, m);
+    }
+ 
+    for (int i = 0; i < t; i++)
+    {
+        cout << answers[i] << endl;
+    }
+ 
+    delete[] answers;
+}
