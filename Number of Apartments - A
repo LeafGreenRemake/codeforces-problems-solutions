@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+#include <tuple>
+using namespace std;
+const int oo = 1e9 + 7;
+ 
+signed main() {
+  cin.tie(NULL)->sync_with_stdio(false);
+  cout << setprecision(10);
+  using MyTuple = tuple<int, int, int>;
+ 
+  int t, n;
+  cin >> t;
+  array<MyTuple, 1001> arr;
+  arr[0] = make_tuple(-1, -1, -1);
+  arr[1] = make_tuple(-1, -1, -1);
+  arr[2] = make_tuple(-1, -1, -1);
+  arr[3] = make_tuple(1, 0, 0);
+  arr[4] = make_tuple(-1, -1, -1);
+  arr[5] = make_tuple(0, 1, 0);
+  arr[6] = make_tuple(2, 0, 0);
+  arr[7] = make_tuple(0, 0, 1);
+  for (int i = 8; i < 1001; i++)
+  {
+        if (get<0>(arr[i - 3]) != -1) 
+        {
+            arr[i] = make_tuple(get<0>(arr[i - 3]) + 1, get<1>(arr[i - 3]), get<2>(arr[i - 3]));
+        }
+        else if (get<0>(arr[i - 5]) != -1) 
+        {
+            arr[i] = make_tuple(get<0>(arr[i - 5]), get<1>(arr[i - 5]) + 1, get<2>(arr[i - 5]));
+        } 
+        else if (get<0>(arr[i - 7]) != -1) {
+            arr[i] = make_tuple(get<0>(arr[i - 7]), get<1>(arr[i - 7]), get<2>(arr[i - 7]) + 1);
+        } 
+        else 
+        {
+            arr[i] = make_tuple(-1, -1, -1);
+        }
+  }
+ 
+  for (int i = 0; i < t; i++)
+  {
+    cin >> n;
+    if (get<0>(arr[n]) == -1)
+    {
+      cout << -1 << endl; 
+    }
+    else
+    {
+      cout << get<0>(arr[n]) << " " << get<1>(arr[n]) << " " << get<2>(arr[n]) << endl;
+    }
+  }
+  
+  return 0;
+}
