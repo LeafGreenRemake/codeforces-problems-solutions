@@ -1,0 +1,96 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define all(x) x.begin(), x.end()
+#define fori(n, i) for (int i = 0; i < n; i++)
+typedef vector<int> vi;
+typedef pair<int, int> ii;
+const int oo = 1e9 + 7;
+ 
+void add(int i, int &sumW, int &sumB, bool currentIsW, int n)
+{
+  if (n > 0)
+  {
+    if (n < i)
+    {
+      if (currentIsW)
+      {
+        sumW += n/2;
+        sumB += n/2;
+        if (n % 2 != 0)
+        {
+          sumW++;
+        }
+      }
+    else
+    {
+      sumW += n/2;
+      sumB += n/2;
+      if (n % 2 != 0)
+      {
+        sumB++;
+      }
+    }
+  }
+  else 
+  {
+    if (currentIsW)
+    {
+      sumW += i/2;
+      sumB += i/2;
+      if (i % 2 != 0)
+      {
+        sumW++;
+      }
+    }
+    else
+    {
+      sumW += i/2;
+      sumB += i/2;
+      if (i % 2 != 0)
+      {
+        sumB++;
+      }
+    }
+  }
+  }
+}
+ 
+void solve(int n) { 
+	int sumAW = 0, sumAB = 0, sumBW = 0, sumBB = 0, i = 2; 
+ 
+  sumAW++;
+  n--;
+  while (n > 0)
+  {
+    add(i, sumBW, sumBB, false, n);
+    n -= i;
+    i++;
+ 
+    add(i, sumBW, sumBB, false, n);
+    n -= i;
+    i++;
+ 
+    add(i, sumAW, sumAB, true, n);
+    n -= i;
+    i++;
+    add(i, sumAW, sumAB, true, n);
+    n -= i;
+    i++;
+  }
+ 
+  cout << sumAW << " " << sumAB << " " << sumBW << " " << sumBB << endl;
+ }
+ 
+signed main() {
+  cin.tie(NULL)->sync_with_stdio(false);
+  cout << setprecision(10);
+ 
+  int t = 1, n;
+  cin >> t;
+  while (t--)
+  {
+	  cin >> n;
+	  solve(n);
+  }
+}
