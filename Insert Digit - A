@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+#include <string>
+#include <iostream>
+using namespace std;
+#define all(x) x.begin(), x.end()
+#define fori(n, i) for (int i = 0; i < n; i++)
+typedef vector<int> vi;
+typedef pair<int, int> ii;
+const int oo = 1e9 + 7;
+ 
+void solve(int n, int d, string num) 
+{ 
+	int newIndex = -1;
+  if (d == 0)
+  {
+    for (int j = 0; j < n; j++)
+    {
+      cout << num[j];
+    }
+    cout << d << endl;
+  }
+  else
+  {
+    for (int j = 0; j < n; j++)
+    {
+      if (int(num[j] - '0') < d)
+      {
+        newIndex = j;
+        j = n;
+      }
+    }
+    //cout << "the chosen newIndex is " << newIndex << endl;
+ 
+    for (int j = 0; j < n; j++)
+    {
+      if (j == newIndex)
+      {
+        cout << d;
+      }
+      cout << num[j];
+    }
+    if (newIndex == -1)
+    {
+      cout << d;
+    }
+    cout << endl;
+  }
+	
+}
+ 
+signed main() {
+  cin.tie(NULL)->sync_with_stdio(false);
+  cout << setprecision(10);
+ 
+  int t, n, d;
+  string num;
+  cin >> t;
+  for (int i = 0; i < t; i++)
+  {
+	  cin >> n >> d >> num;
+	  solve(n, d, num);
+  }
+  
+  return 0;
+}
