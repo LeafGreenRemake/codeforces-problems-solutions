@@ -1,0 +1,89 @@
+#include <algorithm>
+ 
+char in[1<<24];
+struct scanner{
+	char const* o; 
+	scanner(): o(in){load();}
+	void load(){in[fread(in,1,sizeof(in)-4,stdin)]=0;}
+	unsigned readInt(){
+		unsigned u = 0;
+		while(*o && *o <= 32)++o;
+		while(*o >='0' && *o <='9') u = u *10 + (*o++ -'0');
+		return u;
+	}
+};
+ 
+ 
+static const int N = 1<<20; // 2^20 = 1 048 576 > 10^6
+ 
+typedef long long ll;
+ 
+struct segment_tree
+{
+	ll t[N+N];
+	
+	void update(int p, ll x)
+	{
+		for( p += N; p > 0 ; p >>= 1)
+			t[p] += x;
+	}
+ 
+	ll query(int l, int r)
+	{
+		ll result = 0;
+		for( l += N, r +=  N; l < r; l >>= 1, r >>= 1 )
+		{
+			if ( l & 1 ) result += t[ l++ ];
+			if ( r & 1 ) result += t[ --r ];
+		}
+		return result;
+	}
+}TA, TB;
+ 
+int a[ N ], b[ N ];
+int n;
+int main()
+{
+	#ifndef ONLINE_JUDGE
+			freopen("input.txt", "r", stdin);
+			freopen("output.txt", "w", stdout);
+	#endif
+ 
+	scanner sc;
+	n  = sc.readInt();
+	for(int i= 0; i<  n ; ++i)
+	{
+		a[i] = b[i] = sc.readInt();
+	}
+ 
+	std::sort(b, b + n);
+	
+         // replace all a[i] to its position of sorted b[] array.
+        //  lower_bound - returns position of a[i] in b[] array. 
+        //                actually it returns pointer to b[pos], where b[pos] == a[i]
+        //                so need subtract b from result. 
+         for(int i = 0; i < n; ++i) 
+		a[i] = std::lower_bound(b, b + n, a[i]) - b;
+ 
+        // now  0<= a[i] < n, for i = 0..n-1.
+	ll ans = 0;
+	for(int i= 0; i < n; ++i)
+	{
+ 
+		ll ra = TA.query( a[ i ] , n ); // number of such a[j] > a[i], and j < i
+		ll rb = TB.query( a[ i ] , n ); // number of such a[k] > a[j] > a[i], where k < j < i
+ 
+ 
+#ifndef ONLINE_JUDGE // debugging
+		printf("a[%d] = %d , ra = %lld  rb = %lld\n", i, a[i], ra, rb);
+#endif 
+ 
+		ans += rb;
+		TA.update(a[i], 1);
+		TB.update(a[i], ra);
+	}	
+ 
+	printf("%lld\n", ans);
+ 
+	return 0;
+}
