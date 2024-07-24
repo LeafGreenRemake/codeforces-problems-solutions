@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define all(x) x.begin(), x.end()
+#define fori(n, i) for (int i = 0; i < n; i++)
+typedef vector<int> vi;
+typedef pair<int, int> ii;
+const int oo = 1e9 + 7;
+ 
+void solve(int n, int index, int* answers)
+{
+	int maxVal = -oo;
+	vi vec, odd, even;
+	int input;
+	int eSize = 0;
+	int oSize = 0;
+ 
+	for (int i = 0; i < n; i++)
+	{
+		cin >> input;
+		vec.push_back(input);
+		maxVal = max(maxVal, input);
+		if (i % 2 == 0)
+		{
+			even.push_back(input);
+			eSize++;
+		}
+		else
+		{
+			odd.push_back(input);
+			oSize++;
+		}
+	}
+ 
+	sort(even.begin(), even.end());
+	sort(odd.begin(), odd.end());
+	reverse(even.begin(), even.end());
+	reverse(odd.begin(), odd.end());
+	int tmp = 0;
+	for (int i = 0; i < eSize; i++)
+	{
+		tmp += even[i];
+		maxVal = max(maxVal, tmp);
+	}
+ 
+	tmp = 0;
+	for (int i = 0; i < oSize; i++)
+	{
+		tmp += odd[i];
+		maxVal = max(maxVal, tmp);
+	}
+ 
+	answers[index] = maxVal;
+}
+ 
+int32_t main() {
+	int t, i = 0;
+	cin>>t;
+	int *answers = new int[t];
+ 
+	while (i < t){
+		int n;
+		cin>>n;
+		solve(n, i, answers);
+		i++;
+	}
+	for (int j = 0; j < t; j++)
+	{
+		cout << answers[j] << endl;
+	}
+ 
+	delete answers;
+    return 0;
+}
