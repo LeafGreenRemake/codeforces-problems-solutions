@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+	int n;
+	cin >> n;
+	int low = 1, high = n, mid;
+	int current, next;
+	while(low < high)
+	{
+		int mid = (low + high)/2;
+		cout << "? " << mid << endl;
+		cout << "? " << mid + 1 << endl;
+		cin >> current >> next;
+		if (current < next)
+		{
+			high = mid;
+		}
+		else
+		{
+			low = mid + 1;
+		}
+	}
+	cout << "! " << low << endl;
+ 
+	return 0;
+}
