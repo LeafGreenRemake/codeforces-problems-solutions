@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+//#define int long long
+#define all(x) x.begin(), x.end()
+#define fori(n, i) for (int i = 0; i < n; i++)
+typedef vector<int> vi;
+typedef pair<int, int> ii;
+const int oo = 1e9 + 7;
+ 
+const int maxn = 1000;
+int p[maxn], s[maxn];  // parent and size arrays.
+ 
+int find(int a) { return p[a] == a ? a : p[a] = find(p[a]); }
+ 
+int onion(int a, int b) {
+  if ((a = find(a)) == (b = find(b))) return 0;
+  if (s[a] < s[b]) swap(a, b);
+  s[a] += s[b];
+  p[b] = a;
+  return 1;
+}
+ 
+ 
+void solve(int n) { 
+  int x, y;
+  int neededMore = n - 1;
+  vector<int> drifts(n);
+  vector<pair<int, int>> points(n);
+  for (int i = 0; i < n; i++)
+  {
+    cin >> x >> y;
+    points[i] = {x, y};
+    p[i] = i;
+    s[i] = 1;
+  }
+  for (int i = 0; i < n; i++)
+  {
+    for (int j = i + 1; j < n; j++)
+    {
+      if (points[i].first == points[j].first || points[i].second == points[j].second)
+      {
+        x = onion(i, j);
+        if (x)
+        {
+          neededMore--;
+        }
+      }
+    }
+  }
+  cout << neededMore << endl;
+ }
+ 
+signed main() {
+  cin.tie(NULL)->sync_with_stdio(false);
+  cout << setprecision(10);
+  
+  int n;
+  cin >> n;
+  solve(n);
+}
