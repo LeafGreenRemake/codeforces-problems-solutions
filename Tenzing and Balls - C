@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+//#define int long long
+#define all(x) x.begin(), x.end()
+#define fori(n, i) for (int i = 0; i < n; i++)
+typedef vector<int> vi;
+typedef pair<int, int> ii;
+const int oo = 1e9 + 7;
+ 
+int main() {
+	int t;
+	cin>>t;
+	while (t--){
+		int n;
+		cin>>n;
+		int maxes[200005];
+		int prevIdx[200005];
+		for (int i=0;i<200005;i++){
+			prevIdx[i]=-1;
+		}
+		for (int i=1;i<=n;i++){
+			int color;
+			cin>>color;
+			if (prevIdx[color]==-1){
+				prevIdx[color]=i;
+				maxes[i]=maxes[i-1];
+				continue;
+			}
+			maxes[i]=max(maxes[i-1],max(maxes[prevIdx[color]-1]+i-prevIdx[color]+1,maxes[prevIdx[color]]+i-prevIdx[color]));
+			prevIdx[color]=i;
+		}
+		cout<<maxes[n]<<endl;
+	}
+ 
+    return 0;
+}
